@@ -1,0 +1,44 @@
+:root {
+    --alive: #0d74e7;
+    --background: #2b3137;
+    --border: #24292d;
+}
+
+body {
+  align-items: center;
+  background-color: var(--background);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  margin: 0;
+  user-select: none;
+}
+
+table,
+td {
+  border: solid 2px var(--border);
+  border-collapse: collapse;
+}
+table {
+  height: 100vw;
+  max-height: 100%;
+  max-width: 100%;
+  width: 100vh;
+}
+td {
+  color: white;
+  cursor: pointer;
+  text-align: center;
+}
+td:not(.alive) {
+  background-color: var(--background);
+}
+td.alive {
+  background-color: var(--alive);
+}
+td.food {
+  background: url('../images/food.png');
+  background-attachment: local;
+  background-position: center;
+  background-size: cover;
+}
