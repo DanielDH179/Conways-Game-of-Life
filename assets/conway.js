@@ -9,9 +9,10 @@
  */
 
 // HTML elements
-const slider = document.querySelector("input");
+const nextButton = document.querySelector("#next");
 const removeButton = document.querySelector("#remove");
 const resetButton = document.querySelector("#reset");
+const slider = document.querySelector("input");
 const startButton = document.querySelector("#start");
 const stopButton = document.querySelector("#stop");
 const table = document.querySelector("table");
@@ -58,6 +59,7 @@ function resetBoard() {
 }
 
 function setUpButtons() {
+  nextButton.addEventListener("click", nextStep);
   removeButton.addEventListener("click", removeFood);
   resetButton.addEventListener("click", resetBoard);
   slider.addEventListener("mousemove", updateSlider);
