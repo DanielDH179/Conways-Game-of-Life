@@ -5,9 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DanielDH179</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <link rel="icon" sizes="16x16" type="image/png" href="" />
+    <link rel="icon" sizes="16x16" type="image/png" href="images/food.png" />
   </head>
   <body>
+    <div id="menu">
+      <button id="remove">REMOVE FOOD</button>
+      <button id="reset">RESET BOARD</button>
+      <button id="start">START</button>
+      <button id="stop">STOP</button>
+      <div id="game-ticks">
+        <input type="range" oninput="setGameTicks(value)" />
+        <span></span>
+      </div>
+    </div>
     <table></table>
     <script src="assets/conway.js"></script>
   </body>
