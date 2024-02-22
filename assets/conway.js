@@ -5,14 +5,24 @@
 /**
  * @license MIT
  * @author DanielDH179
- * @version 1.0.0
+ * @version 1.1.0
  */
 
 // HTML elements
+const slider = document.querySelector("input");
+const removeButton = document.querySelector("#remove");
+const resetButton = document.querySelector("#reset");
+const startButton = document.querySelector("#start");
+const stopButton = document.querySelector("#stop");
 const table = document.querySelector("table");
+const value = document.querySelector("span");
 
 // Game configuration
+slider.min = 0;
+slider.max = 30;
+slider.value = 0;
 const boardSize = 20;
+const defaultStart = 1;
 const neighbors = [
   [-1, 1],
   [0, 1],
@@ -30,6 +40,13 @@ let mouseDown = false;
 let gameInstance;
 
 document.addEventListener("DOMContentLoaded", () => {
+  resetBoard();
+  updateSlider();
+  setUpButtons();
+});
+
+function resetBoard() {
+  table.innerHTML = "";
   for (let i = 0; i < boardSize; i++) {
     let row = document.createElement("tr");
     for (let j = 0; j < boardSize; j++) {
@@ -38,9 +55,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     table.appendChild(row);
   }
-});
+}
+
+function setUpButtons() {
+  removeButton.addEventListener("click", removeFood);
+  resetButton.addEventListener("click", resetBoard);
+  slider.addEventListener("mousemove", updateSlider);
+  startButton.addEventListener("click", () => setGameTicks(defaultStart));
+  stopButton.addEventListener("click", () => setGameTicks(0));
+}
+
+function removeFood() {
+  for (let cell of document.querySelectorAll(".food"))
+    cell.classList.remove("food");
+}
+
+function updateSlider() {
+  let ratio = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+  slider.style.background = `linear-gradient(to right, #FFF ${ratio}%, #2B3137 ${ratio}%)`;
+  value.innerText = slider.value;
+}
 
 function setGameTicks(gameTicks) {
+  slider.value = gameTicks;
+  updateSlider();
   clearInterval(gameInstance);
   if (gameTicks > 0) gameInstance = setInterval(nextStep, 1000 / gameTicks);
 }
@@ -57,16 +95,16 @@ table.addEventListener("mousemove", (event) => {
   let styles = event.target.classList;
   if (mouseDown && !styles.contains("food")) styles.add("alive");
 });
-table.addEventListener("contextmenu", newFood);
+table.addEventListener("contextmenu", toggleFood);
 
 function newCell(event) {
   event.target.classList.add("alive");
 }
 
-function newFood(event) {
+function toggleFood(event) {
   event.preventDefault();
   let styles = event.target.classList;
-  if (!styles.contains("alive")) styles.add("food");
+  if (!styles.contains("alive")) styles.toggle("food");
 }
 
 function nextStep() {
@@ -129,8 +167,8 @@ function getCoordinates(element) {
 ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫
 ┃   ┃   ┃   ┃ X ┃    ┃   ┃   ┃ X ┃   ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
 ┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛
- [ 2, 1, 2, 0,        [ 2, 2, 1, 0,        [ 0, 0, 0, 0,        [ 0, 0, 0, 0,
-   3, 2, 4, 1,          0, 0, 0, 0,          1, 1, 1, 0,          0, 0, 0, 0,
-   2, 1, 4, 1,          0, 3, 1, 1,          1, 0, 1, 0,          0, 0, 0, 0,
-   1, 1, 3, 1 ]         0, 1, 0, 1 ]         1, 1, 1, 0 ]         0, 0, 0, 0 ]
+  [ 2, 1, 2, 0,        [ 2, 2, 1, 0,        [ 0, 0, 0, 0,        [ 0, 0, 0, 0,
+    3, 2, 4, 1,          0, 0, 0, 0,          1, 1, 1, 0,          0, 0, 0, 0,
+    2, 1, 4, 1,          0, 3, 1, 1,          1, 0, 1, 0,          0, 0, 0, 0,
+    1, 1, 3, 1 ]         0, 1, 0, 1 ]         1, 1, 1, 0 ]         0, 0, 0, 0 ]
 */
