@@ -1,7 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+
+@font-face {
+  font-family: Martin;
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/martin.ttf') format('truetype');
+}
+
 :root {
-    --alive: #0d74e7;
-    --background: #2b3137;
-    --border: #24292d;
+  --alive: #0D74E7;
+  --background: #2B3137;
+  --dark: #24292D;
+  --font-size: 14px;
 }
 
 body {
@@ -11,12 +21,68 @@ body {
   height: 100vh;
   justify-content: center;
   margin: 0;
+  text-align: center;
   user-select: none;
+}
+
+#menu {
+  margin: 0 20px;
+  max-width: 200px;
+  min-width: 200px;
+}
+button {
+  background-color: var(--dark);
+  border: solid 2px var(--alive);
+  border-radius: 21px;
+  color: white;
+  cursor: pointer;
+  font-family: Orbitron;
+  font-size: var(--font-size);
+  font-weight: bold;
+  height: 42px;
+  margin: 10px 0;
+  padding: 10px;
+  transition: 0.5s;
+  width: 100%;
+}
+button:hover {
+  filter: contrast(80%);
+  font-size: 101%;
+}
+#game-ticks {
+  align-items: center;
+  background-color: var(--dark);
+  border: solid 2px var(--alive);
+  border-radius: 21px;
+  display: flex;
+  height: 38px;
+  margin: 10px 0;
+  padding: 0 20px;
+}
+input {
+  accent-color: red;
+  appearance: none;
+  cursor: grab;
+  height: 4px;
+  border-radius: 2px;
+  margin-right: 10px;
+  width: 100%;
+}
+span {
+  background-color: var(--alive);
+  border-radius: 15px;
+  color: white;
+  font-family: Martin;
+  font-size: var(--font-size);
+  font-weight: bold;
+  padding: 4px;
+  text-align: center;
+  width: 40px;
 }
 
 table,
 td {
-  border: solid 2px var(--border);
+  border: solid 2px var(--dark);
   border-collapse: collapse;
 }
 table {
