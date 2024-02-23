@@ -5,16 +5,20 @@
 /**
  * @license MIT
  * @author DanielDH179
- * @version 1.1.1
+ * @version 1.1.2
  */
 
-// HTML elements
+// HTML buttons
+const debugButton = document.querySelector("#debug");
 const nextButton = document.querySelector("#next");
+const randomButton = document.querySelector("#random");
 const removeButton = document.querySelector("#remove");
 const resetButton = document.querySelector("#reset");
-const slider = document.querySelector("input");
 const startButton = document.querySelector("#start");
 const stopButton = document.querySelector("#stop");
+
+// HTML elements
+const slider = document.querySelector("input");
 const table = document.querySelector("table");
 const value = document.querySelector("span");
 
@@ -23,7 +27,6 @@ slider.min = 0;
 slider.max = 30;
 slider.value = 0;
 const boardSize = 20;
-const defaultStart = 1;
 const neighbors = [
   [-1, 1],
   [0, 1],
@@ -38,19 +41,22 @@ const neighbors = [
 let boardState = [];
 let livingNeighbors = [];
 let mouseDown = false;
+let showDebug = false;
 let gameInstance;
 
 document.addEventListener("DOMContentLoaded", () => {
   resizeBoard();
   resetBoard();
+  setUpMenu();
   updateSlider();
-  setUpButtons();
+  updateTable();
+  fillArrays();
 });
 
 window.addEventListener("resize", resizeBoard);
 
 function resizeBoard() {
-  table.style.height = table.clientWidth + "px";
+  table.style.height = `${table.clientWidth}px`;
 }
 
 function resetBoard() {
@@ -59,74 +65,108 @@ function resetBoard() {
     let row = document.createElement("tr");
     for (let j = 0; j < boardSize; j++) {
       let cell = document.createElement("td");
+      cell.style.fontSize = `${320 / boardSize}px`;
       row.appendChild(cell);
     }
     table.appendChild(row);
   }
+  fillArrays();
 }
 
-function setUpButtons() {
+// Button listeners
+function setUpMenu() {
+  debugButton.addEventListener("click", debugMode);
   nextButton.addEventListener("click", nextStep);
+  randomButton.addEventListener("click", () => randomFill(0.5));
   removeButton.addEventListener("click", removeFood);
   resetButton.addEventListener("click", resetBoard);
   slider.addEventListener("mousemove", updateSlider);
-  startButton.addEventListener("click", () => setGameTicks(defaultStart));
-  stopButton.addEventListener("click", () => setGameTicks(0));
+  startButton.addEventListener("click", () => setFramerate(1));
+  stopButton.addEventListener("click", () => setFramerate(0));
 }
 
-function removeFood() {
-  for (let cell of document.querySelectorAll(".food"))
-    cell.classList.remove("food");
+// Toggle debug mode
+function debugMode() {
+  showDebug = !showDebug;
+  fillArrays();
 }
 
+// Display slider value
 function updateSlider() {
   let ratio = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
   slider.style.background = `linear-gradient(to right, #FFF ${ratio}%, #2B3137 ${ratio}%)`;
   value.innerText = slider.value;
 }
 
-function setGameTicks(gameTicks) {
-  slider.value = gameTicks;
-  updateSlider();
-  clearInterval(gameInstance);
-  if (gameTicks > 0) gameInstance = setInterval(nextStep, 1000 / gameTicks);
+// Display table
+function updateTable() {
+  table.addEventListener("mousedown", (event) => {
+    let styles = event.target.classList;
+    if (event.button === 0 && !styles.contains("food")) {
+      styles.add("alive");
+      fillArrays();
+      mouseDown = true;
+    }
+  });
+  table.addEventListener("mouseup", () => (mouseDown = false));
+  table.addEventListener("mousemove", (event) => {
+    let styles = event.target.classList;
+    if (mouseDown && !styles.contains("food")) {
+      styles.add("alive");
+      fillArrays();
+    }
+  });
+  table.addEventListener("contextmenu", toggleFood);
 }
 
-table.addEventListener("mousedown", (event) => {
-  let styles = event.target.classList;
-  if (event.button === 0 && !styles.contains("food")) {
-    styles.add("alive");
-    mouseDown = true;
-  }
-});
-table.addEventListener("mouseup", () => (mouseDown = false));
-table.addEventListener("mousemove", (event) => {
-  let styles = event.target.classList;
-  if (mouseDown && !styles.contains("food")) styles.add("alive");
-});
-table.addEventListener("contextmenu", toggleFood);
+// Generate random living cells
+function randomFill(percentage) {
+  resetBoard();
+  for (let cell of document.querySelectorAll("td"))
+    if (Math.random() < percentage) cell.classList.add("alive");
+  fillArrays();
+}
+
+// Set framerate (FPS)
+function setFramerate(framerate) {
+  slider.value = framerate;
+  updateSlider();
+  clearInterval(gameInstance);
+  if (framerate > 0) gameInstance = setInterval(nextStep, 1000 / framerate);
+}
 
 function newCell(event) {
   event.target.classList.add("alive");
 }
 
+// Toggle food cells
 function toggleFood(event) {
   event.preventDefault();
   let styles = event.target.classList;
   if (!styles.contains("alive")) styles.toggle("food");
 }
 
+// Clear food cells
+function removeFood() {
+  for (let cell of document.querySelectorAll(".food"))
+    cell.classList.remove("food");
+}
+
 function nextStep() {
   boardState.length = livingNeighbors.length = 0;
   fillArrays();
   nextGeneration();
+  fillArrays();
 }
 
 function fillArrays() {
   for (let cell of document.querySelectorAll("td")) {
     let [x, y] = getCoordinates(cell);
     boardState.push(cell.classList.contains("alive"));
-    livingNeighbors.push(getLivingNeighbors(x, y));
+    let total = getLivingNeighbors(x, y);
+    livingNeighbors.push(total);
+    if (showDebug) cell.innerText = total;
+    else cell.innerText = "";
   }
 }
 
@@ -134,17 +174,17 @@ function nextGeneration() {
   for (let i = 0; i < boardSize * boardSize; i++) {
     let x = Math.floor(i / boardSize);
     let y = i % boardSize;
-    let cell = table.children[x].children[y];
+    let styles = table.children[x].children[y].classList;
     switch (livingNeighbors[i]) {
       case 2:
-        if (boardState[i]) cell.classList.add("alive");
-        else cell.classList.remove("alive");
+        if (boardState[i]) styles.add("alive");
+        else styles.remove("alive");
         break;
       case 3:
-        cell.classList.add("alive");
+        styles.add("alive");
         break;
       default:
-        cell.classList.remove("alive");
+        styles.remove("alive");
     }
   }
 }

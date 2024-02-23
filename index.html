@@ -10,14 +10,16 @@
   <body>
     <div id="menu">
       <button id="next">NEXT ITERATION</button>
+      <button id="random">NEXT RANDOM</button>
       <button id="remove">REMOVE FOOD</button>
       <button id="reset">RESET BOARD</button>
       <button id="start">START</button>
       <button id="stop">STOP</button>
-      <div id="framerate">
-        <input type="range" oninput="setGameTicks(value)" />
+      <div id="slider">
+        <input type="range" oninput="setFramerate(value)" />
         <span></span>
       </div>
+      <button id="debug">TOGGLE DEBUG</button>
     </div>
     <table></table>
     <script src="assets/conway.js"></script>

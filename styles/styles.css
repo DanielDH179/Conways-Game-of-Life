@@ -49,7 +49,7 @@ button:hover {
   filter: contrast(80%);
   scale: 105%;
 }
-#framerate {
+#slider {
   align-items: center;
   background-color: var(--dark);
   border: solid 2px var(--alive);
@@ -87,6 +87,7 @@ td {
 }
 table {
   height: 100vw;
+  margin-right: 20px;
   max-height: 100%;
   max-width: 100%;
   width: 100vh;
@@ -94,6 +95,7 @@ table {
 td {
   color: white;
   cursor: pointer;
+  font-family: Martin;
   text-align: center;
 }
 td:not(.alive) {
