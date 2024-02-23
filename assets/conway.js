@@ -87,7 +87,9 @@ function setUpMenu() {
 
 // Toggle debug mode
 function debugMode() {
+  let styles = debugButton.classList;
   showDebug = !showDebug;
+  styles.toggle("on");
   fillArrays();
 }
 

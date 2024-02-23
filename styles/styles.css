@@ -11,6 +11,8 @@
   --alive: #0D74E7;
   --background: #2B3137;
   --dark: #24292D;
+  --debug-on: #3FB950;
+  --debug-off: #F85149;
   --font-size: 14px;
 }
 
@@ -48,6 +50,12 @@ button {
 button:hover {
   filter: contrast(80%);
   scale: 105%;
+}
+#debug.on {
+  border-color: var(--debug-on);
+}
+#debug:not(.on) {
+  border-color: var(--debug-off);
 }
 #slider {
   align-items: center;
