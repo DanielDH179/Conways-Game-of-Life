@@ -41,10 +41,17 @@ let mouseDown = false;
 let gameInstance;
 
 document.addEventListener("DOMContentLoaded", () => {
+  resizeBoard();
   resetBoard();
   updateSlider();
   setUpButtons();
 });
+
+window.addEventListener("resize", resizeBoard);
+
+function resizeBoard() {
+  table.style.height = table.clientWidth + "px";
+}
 
 function resetBoard() {
   table.innerHTML = "";

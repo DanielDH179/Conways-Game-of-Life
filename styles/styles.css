@@ -47,9 +47,9 @@ button {
 }
 button:hover {
   filter: contrast(80%);
-  font-size: 101%;
+  scale: 105%;
 }
-#game-ticks {
+#framerate {
   align-items: center;
   background-color: var(--dark);
   border: solid 2px var(--alive);
@@ -60,7 +60,7 @@ button:hover {
   padding: 0 20px;
 }
 input {
-  accent-color: red;
+  accent-color: var(--alive);
   appearance: none;
   cursor: grab;
   height: 4px;
@@ -101,6 +101,7 @@ td:not(.alive) {
 }
 td.alive {
   background-color: var(--alive);
+  /* transition: 0.1s; */
 }
 td.food {
   background: url('../images/food.png');
