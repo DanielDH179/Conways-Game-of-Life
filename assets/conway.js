@@ -5,7 +5,7 @@
 /**
  * @license MIT
  * @author DanielDH179
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 // HTML buttons
