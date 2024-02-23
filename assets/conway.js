@@ -137,10 +137,6 @@ function setFramerate(framerate) {
   if (framerate > 0) gameInstance = setInterval(nextStep, 1000 / framerate);
 }
 
-function newCell(event) {
-  event.target.classList.add("alive");
-}
-
 // Toggle food cells
 function toggleFood(event) {
   event.preventDefault();
