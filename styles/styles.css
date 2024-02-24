@@ -114,8 +114,8 @@ td.alive {
   /* transition: 0.1s; */
 }
 td.food {
-  background: url('../images/food.png');
   background-attachment: local;
+  background-image: url('../images/food.png');
   background-position: center;
   background-size: cover;
 }
