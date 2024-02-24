@@ -163,8 +163,7 @@ function fillArrays() {
     boardState.push(cell.classList.contains("alive"));
     let total = getLivingNeighbors(x, y);
     livingNeighbors.push(total);
-    if (showDebug) cell.innerText = total;
-    else cell.innerText = "";
+    cell.innerText = showDebug ? total : "";
   }
 }
 
@@ -175,8 +174,7 @@ function nextGeneration() {
     let styles = table.children[x].children[y].classList;
     switch (livingNeighbors[i]) {
       case 2:
-        if (boardState[i]) styles.add("alive");
-        else styles.remove("alive");
+        boardState[i] ? styles.add("alive") : styles.remove("alive");
         break;
       case 3:
         styles.add("alive");
@@ -217,25 +215,25 @@ CONWAY'S GAME OF LIFE RULES:
 - Living cells die if they have more than 3 neighbors
 - Dead cells that have 3 neighbors become alive
 - Otherwise no changes
-┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓
-┃   ┃ X ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
-┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫
-┃   ┃ X ┃   ┃   ┃    ┃ X ┃ X ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
-┣━━━╋━━━╋━━━╋━━━┫ -> ┣━━━╋━━━╋━━━╋━━━┫ -> ┣━━━╋━━━╋━━━╋━━━┫
-┃   ┃ X ┃   ┃ X ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃ X ┃   ┃   ┃
-┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫
-┃   ┃   ┃   ┃ X ┃    ┃   ┃   ┃ X ┃   ┃    ┃   ┃   ┃   ┃   ┃
-┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛
-  [ 2, 1, 2, 0,        [ 2, 2, 1, 0,        [ 0, 0, 0, 0,
-    3, 2, 4, 1,          0, 0, 0, 0,          1, 1, 1, 0,
-    2, 1, 4, 1,          0, 3, 1, 1,          1, 0, 1, 0,
-    1, 1, 3, 1 ]         0, 1, 0, 1 ]         1, 1, 1, 0 ]
+┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓
+┃   ┃ X ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
+┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫
+┃   ┃ X ┃   ┃   ┃    ┃ X ┃ X ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
+┣━━━╋━━━╋━━━╋━━━┫ -> ┣━━━╋━━━╋━━━╋━━━┫ -> ┣━━━╋━━━╋━━━╋━━━┫ -> ┣━━━╋━━━╋━━━╋━━━┫
+┃   ┃ X ┃   ┃ X ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃ X ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
+┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫
+┃   ┃   ┃   ┃ X ┃    ┃   ┃   ┃ X ┃   ┃    ┃   ┃   ┃   ┃   ┃    ┃   ┃   ┃   ┃   ┃
+┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛    ┗━━━┻━━━┻━━━┻━━━┛
+  [ 2, 1, 2, 0,        [ 2, 2, 1, 0,        [ 0, 0, 0, 0,        [ 0, 0, 0, 0,
+    3, 2, 4, 1,          0, 0, 0, 0,          1, 1, 1, 0,          0, 0, 0, 0,
+    2, 1, 4, 1,          0, 3, 1, 1,          1, 0, 1, 0,          0, 0, 0, 0,
+    1, 1, 3, 1 ]         0, 1, 0, 1 ]         1, 1, 1, 0 ]         0, 0, 0, 0 ]
 
 REPRODUCTION AND DEATH RULES WITH FOOD:
-- One movement requires one energy unit
-- Eating food restores one energy unit
+- One movement requires one energy point
+- Eating food restores N energy points
 - Nearest 2 cells to food engage in reproduction
-- Living cells die after consuming N energy units
+- Living cells die after consuming N energy points
 ┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓    ┏━━━┳━━━┳━━━┳━━━┓
 ┃   ┃   ┃ X ┃ X ┃    ┃   ┃   ┃ X ┃ X ┃    ┃   ┃ X ┃ X ┃   ┃
 ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫    ┣━━━╋━━━╋━━━╋━━━┫
