@@ -5,7 +5,7 @@
 /**
  * @license MIT
  * @author DanielDH179
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 // HTML buttons
@@ -18,6 +18,7 @@ const startButton = document.querySelector("#start");
 const stopButton = document.querySelector("#stop");
 
 // HTML elements
+const ratio = document.querySelector("p");
 const slider = document.querySelector("input");
 const table = document.querySelector("table");
 const value = document.querySelector("span");
@@ -26,7 +27,7 @@ const value = document.querySelector("span");
 slider.min = 0;
 slider.max = 30;
 slider.value = 0;
-const boardSize = 20;
+const boardSize = 64;
 const neighbors = [
   [-1, 1],
   [0, 1],
@@ -151,13 +152,13 @@ function removeFood() {
 }
 
 function nextStep() {
-  boardState.length = livingNeighbors.length = 0;
   fillArrays();
   nextGeneration();
   fillArrays();
 }
 
 function fillArrays() {
+  boardState.length = livingNeighbors.length = 0;
   for (let cell of document.querySelectorAll("td")) {
     let [x, y] = getCoordinates(cell);
     boardState.push(cell.classList.contains("alive"));
@@ -165,6 +166,8 @@ function fillArrays() {
     livingNeighbors.push(total);
     cell.innerText = showDebug ? total : "";
   }
+  let cellRatio = document.querySelectorAll(".alive").length / boardSize ** 2;
+  ratio.innerText = `${(cellRatio * 100).toFixed(2)}%`;
 }
 
 function nextGeneration() {

@@ -57,7 +57,7 @@ button:hover {
 #debug:not(.on) {
   border-color: var(--debug-off);
 }
-#slider {
+.container {
   align-items: center;
   background-color: var(--dark);
   border: solid 2px var(--alive);
@@ -66,6 +66,13 @@ button:hover {
   height: 38px;
   margin: 10px 0;
   padding: 0 20px;
+}
+.container p {
+  color: white;
+  font-family: Martin;
+  font-size: var(--font-size);
+  font-weight: bold;
+  margin: auto;
 }
 input {
   accent-color: var(--alive);
